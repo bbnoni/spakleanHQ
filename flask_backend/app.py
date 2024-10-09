@@ -9,7 +9,7 @@ CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
     'DATABASE_URL',
-    'postgresql://your_database_url_here'
+    'postgresql://spakleanhq_user:k26gCOWUdWorxyJPCVKv9xUo0YJupsj7@dpg-cs36hcrv2p9s738tlhmg-a.oregon-postgres.render.com/spakleanhq'
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

@@ -29,21 +29,20 @@ class User(db.Model):
 def home():
     return jsonify({"message": "Flask API is running"})
 
-# Login Route
-@app.route('/login', methods=['POST'])
-def login():
+# Create a user
+@app.route('/users', methods=['POST'])
+def create_user():
     data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
-    role = data.get('role')
+    new_user = User(username=data['username'], password=data['password'], role=data['role'])
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({"message": "User created successfully"}), 201
 
-    # Check if user exists
-    user = User.query.filter_by(username=email, role=role).first()
-
-    if user and user.password == password:
-        return jsonify({"status": "success", "role": user.role, "message": "Login successful"}), 200
-    else:
-        return jsonify({"status": "error", "message": "Invalid credentials or role"}), 401
+# Get all users
+@app.route('/users', methods=['GET'])
+def get_users():
+    users = User.query.all()
+    return jsonify([{"id": user.id, "username": user.username, "role": user.role} for user in users]), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
